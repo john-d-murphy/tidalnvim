@@ -1,0 +1,219 @@
+*TidalNvim.txt*    For nvim version 0.3.1 or later.
+
+        Tidal integration for Neovim
+
+TidalNvim                                      *TidalNvim*
+
+1. Description..............................|tidalnvim-description|
+   1.1 Acknowledgments
+2. Installation.............................|tidalnvim-installation|
+   2.1 Requirements
+   2.2 Installation
+3. Mappings.................................|tidalnvim-mappings|
+   3.1 Remapping
+4. Commands.................................|tidalnvim-commands|
+5. Help system..............................|tidalnvim-help-system|
+6. Configuration............................|tidalnvim-configuration|
+7. License..................................|tidalnvim-license|
+
+==============================================================================
+DESCRIPTION                                                 *tidalnvim-description*
+
+TidalNvim is a Tidal editor frontend for Neovim. It provides ways to
+evaluate code and inspect output from the post window. The goal of this plugin
+is to create an integrated development environment for Tidal in Neovim.
+
+Acknowledgments~
+
+This plugin borrows heavily from the scnvim plugin by David Granström et. al.,
+as well as the vim-tidal plugin by Damián Silvani et. al. These projects
+can be found at https://github.com/davidgranstrom/scnvim and
+https://github.com/tidalcycles/vim-tidal, respectively.
+
+They have both given inspiration on how to proceed with an nvim project, as
+well as provide the necesssary code to get it working. Many thanks.
+
+==============================================================================
+INSTALLATION                                               *tidalnvim-installation*
+
+Requirements~
+
+Neovim (>= 0.4.3)
+Tidal
+
+Installation~
+
+Here is an example using vim-plug
+
+Install the vim plugin~
+
+1. Add this line to your init.vim
+   `Plug 'davidgranstrom/tidalnvim'`
+2. `:PlugInstall`
+
+Install the Tidal classes~
+
+The Tidal classes are located in the `sc/` directory of this repo.
+
+This directory needs to be linked to your Tidal `Extensions` directory
+(run `Platform.userExtensionDir` in Tidal to see where it is located on
+your platform).
+
+1. Create a directory named `scide_scvim` in the Extensions directory.
+   It is **important** that the directory is named `scide_scvim` (note the
+   omitted 'n') to avoid conflicts with ScIDE.
+
+2. Create a `symlink` (symbolic link) to the `sc` directory of the plugin like
+   in the example below.
+
+Example~
+>
+  # create scide_scvim directory
+  mkdir -p ~/Library/Application\ Support/Tidal/Extensions/scide_scvim
+
+  # create a symbolic link to 'sc' in the 'scide_scvim' directory named 'tidalnvim'
+  ln -s <ABSOLUTE_PATH_TO_tidalnvim_PLUGIN>/sc ~/Library/Application\ Support/Tidal/Extensions/scide_scvim/tidalnvim
+
+Start TidalNvim~
+
+Open a new file in `nvim` with a `.scd` or `.sc` extension and type `:TidalNvimStart` to start Tidal.
+
+==============================================================================
+MAPPINGS                                                       *tidalnvim-mappings*
+
+<C-e>                   Send current block or line.
+                        (depending on context).
+                        Mode: Insert, Normal
+                        Name: `<Plug>(tidalnvim-send-block)`
+
+<C-e>                   Send current selection.
+                        Mode: Visual
+                        Name: `<Plug>(tidalnvim-send-selection)`
+
+<M-e>                   Send current line.
+                        Mode: Insert, Normal
+                        Name: `<Plug>(tidalnvim-send-line)`
+
+<F12>                   Hard stop.
+                        Mode: Insert, Normal
+                        Name: `<Plug>(tidalnvim-hard-stop)`
+
+<CR>                    Toggle post window buffer
+                        Mode: Insert, Normal
+                        Name: `<Plug>(tidalnvim-postwindow-toggle)`
+
+<M-L>                   Clear post window buffer
+                        Mode:  Insert, Normal
+                        Name: `<Plug>(tidalnvim-postwindow-clear)`
+
+K                       Open documentation
+                        See `keywordprg`
+                        Mode: Normal
+
+Remapping~
+
+You can remap all of the default keybindings using the `<Plug>` mappings.
+>
+  nmap <F5> <Plug>(tidalnvim-send-block)
+  nmap <C-s> <Plug>(tidalnvim-send-line)
+  imap <C-s> <c-o><Plug>(tidalnvim-send-line)
+
+==============================================================================
+COMMANDS                                                       *tidalnvim-commands*
+
+Command                        Description
+-------                        -----------
+`TidalNvimStart`                    Start Tidal
+`TidalNvimStop`                     Stop Tidal
+`TidalNvimRecompile`                Recompile SCClassLibrary
+`TidalNvimTags`                     Create auto-generated utility files
+`TidalNvimHelp` <subject>           Open HelpBrowser or window split for <subject>
+
+==============================================================================
+CONFIGURATION                                             *tidalnvim-configuration*
+
+The following variables are used to configure tidalnvim. This plugin should work
+out-of-the-box so it is not necessary to set them if you are happy with the
+defaults.
+
+Run `:checkhealth` to diagnose common problems with your config.
+
+Post window~
+
+Vertical "v" or horizontal "h" split.
+>
+  let g:tidalnvim_postwin_orientation = 'v'
+
+Position of the post window "right" or "left".
+>
+  let g:tidalnvim_postwin_direction = 'right'
+
+Set the size of the post window.
+Default is half the terminal size for vertical and a third for horizontal.
+>
+  let g:tidalnvim_postwin_size = 25
+
+Automatically open post window on a Tidal error
+>
+  let g:tidalnvim_postwin_auto_toggle = 1
+
+Eval flash~
+
+Duration of the highlight in milliseconds. A value of 0 disables eval flash.
+>
+  let g:tidalnvim_eval_flash_duration = 100
+
+Number of flashes. A value of 0 disables eval flash.
+>
+  let g:tidalnvim_eval_flash_repeats = 2
+
+Configure the color
+>
+  highlight TidalNvimEval guifg=black guibg=white ctermfg=black ctermbg=white
+
+Extras~
+
+Path to the sclang executable.
+TidalNvim will look in some known locations for sclang, but if it can't find it
+use this variable instead (setting this also improves startup time slightly).
+>
+  let g:tidalnvim_sclang_executable = ''
+
+Update rate for server info in status line (seconds)
+(don't set this to low or vim will get slow)
+>
+  let g:tidalnvim_statusline_interval = 1
+
+Set this variable if you don't want the "echo args" feature
+>
+  let g:tidalnvim_echo_args = 0
+
+Set this variable if you don't want any default mappings
+>
+  let g:tidalnvim_no_mappings = 1
+
+Browse Tidal documentation in nvim (see |tidalnvim-help-system| for more information)
+>
+  let g:tidalnvim_scdoc = 1
+
+==============================================================================
+LICENSE                                                         *tidalnvim-license*
+
+tidalnvim - Tidal integration for Neovim
+Copyright © 2020 John Murphy
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+ vim:tw=78:et:ft=help:norl:
