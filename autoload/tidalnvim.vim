@@ -21,13 +21,19 @@ function! tidalnvim#send_line(start, end) abort
         " Strip out any comments from the block
         for line in lines
             let line = substitute(line, '--.*', '', '')
-            let tidal_command = tidal_command . line
+            let tidal_command = tidal_command . line . ' '
         endfor
+
+        " Replace two or more consecutive spaces with one space
+        let tidal_command = substitute(tidal_command, ' \+', ' ', 'g')
+
+        " Remove Leading Spaces
+        let tidal_command = trim(tidal_command)
 
         " Goal here is to join all the lines into one command and then replace all
         " control characters (e.g. vim newlines) with spaces. There is likely a better
         " way of doing this.
-        let tidal_command = substitute(tidal_command, '[[:cntrl:]]', ' ', 'g')
+        "let tidal_command = substitute(tidal_command, '[[:cntrl:]]', ' ', 'g')
         call s:flash(a:start - 1, a:end + 1, 'n')
         call tidalnvim#tidal#send(tidal_command)
     endif
@@ -66,12 +72,19 @@ function! s:get_visual_selection() abort
     let lines[-1] = lines[-1][:col2 - 1]
     let lines[0] = lines[0][col1 - 1:]
     return {
-                \ 'text': join(lines, "\n"),
+                \ 'text': lines,
                 \ 'line_start': lnum1,
                 \ 'line_end': lnum2,
                 \ 'col_start': col1,
                 \ 'col_end': col2,
                 \ }
+    "return {
+    "            \ 'text': join(lines, "\n"),
+    "            \ 'line_start': lnum1,
+    "            \ 'line_end': lnum2,
+    "            \ 'col_start': col1,
+    "            \ 'col_end': col2,
+    "            \ }
 endfunction
 
 function! s:skip_pattern() abort

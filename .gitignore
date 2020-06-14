@@ -1,0 +1,10 @@
+# directories
+scnvim-data
+sc/sketch
+rplugin/python3/scnvim/__pycache__
+private
+
+# files
+# auto-generated
+syntax/classes.vim
+tags
