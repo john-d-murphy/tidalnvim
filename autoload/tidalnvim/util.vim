@@ -7,7 +7,6 @@ endfunction
 function! tidalnvim#util#find_tidal_executable() abort
 
     let tidal_exepath = ''
-
     let config_file = get(g:, 'tidalnvim_configuration_file', '')
     if !empty(config_file)
         let ghci = exepath('ghci')

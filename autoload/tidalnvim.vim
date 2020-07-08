@@ -30,10 +30,6 @@ function! tidalnvim#send_line(start, end) abort
         " Remove Leading Spaces
         let tidal_command = trim(tidal_command)
 
-        " Goal here is to join all the lines into one command and then replace all
-        " control characters (e.g. vim newlines) with spaces. There is likely a better
-        " way of doing this.
-        "let tidal_command = substitute(tidal_command, '[[:cntrl:]]', ' ', 'g')
         call s:flash(a:start - 1, a:end + 1, 'n')
         call tidalnvim#tidal#send(tidal_command)
     endif

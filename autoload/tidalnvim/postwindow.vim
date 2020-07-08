@@ -64,7 +64,7 @@ endfunction
 
 function! tidalnvim#postwindow#toggle() abort
   try
-    if !tidalnvim#sclang#is_running()
+    if !tidalnvim#tidal#is_running()
       throw 'tidal not running'
     endif
     let settings = tidalnvim#util#get_user_settings()

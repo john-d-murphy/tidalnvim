@@ -19,7 +19,7 @@ augroup END
 
 
 autocmd tidalnvim ColorScheme * highlight default tidalnvimEval guifg=black guibg=white ctermfg=black ctermbg=white
-autocmd tidalnvim BufEnter,BufNewFile,BufRead *.scd,*.sc call tidalnvim#document#set_current_path()
+autocmd tidalnvim BufEnter,BufNewFile,BufRead *.tidal call tidalnvim#document#set_current_path()
 
 " eval flash default color
 highlight default tidalnvimEval guifg=black guibg=white ctermfg=black ctermbg=white

@@ -12,4 +12,3 @@ let b:did_tidalnvim_commands = 1
 
 command! -buffer TidalNvimStart call tidalnvim#tidal#open()
 command! -buffer TidalNvimStop call tidalnvim#tidal#close()
-command! -buffer -nargs=+ TidalNvimHelp call tidalnvim#help#open_help_for(<q-args>)

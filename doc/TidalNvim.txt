@@ -14,6 +14,7 @@ TidalNvim                                      *TidalNvim*
 4. Commands.................................|tidalnvim-commands|
 5. Help system..............................|tidalnvim-help-system|
 6. Configuration............................|tidalnvim-configuration|
+8. Thanks...................................|tidalnvim-thanks|
 7. License..................................|tidalnvim-license|
 
 ==============================================================================
@@ -25,7 +26,7 @@ is to create an integrated development environment for Tidal in Neovim.
 
 Acknowledgments~
 
-This plugin borrows heavily from the scnvim plugin by David Granström et. al.,
+This plugin borrows heavily from the excellent scnvim plugin by David Granström et. al.,
 as well as the vim-tidal plugin by Damián Silvani et. al. These projects
 can be found at https://github.com/davidgranstrom/scnvim and
 https://github.com/tidalcycles/vim-tidal, respectively.
@@ -47,36 +48,11 @@ Here is an example using vim-plug
 
 Install the vim plugin~
 
-1. Add this line to your init.vim
-   `Plug 'davidgranstrom/tidalnvim'`
-2. `:PlugInstall`
-
-Install the Tidal classes~
-
-The Tidal classes are located in the `sc/` directory of this repo.
-
-This directory needs to be linked to your Tidal `Extensions` directory
-(run `Platform.userExtensionDir` in Tidal to see where it is located on
-your platform).
-
-1. Create a directory named `scide_scvim` in the Extensions directory.
-   It is **important** that the directory is named `scide_scvim` (note the
-   omitted 'n') to avoid conflicts with ScIDE.
-
-2. Create a `symlink` (symbolic link) to the `sc` directory of the plugin like
-   in the example below.
-
-Example~
->
-  # create scide_scvim directory
-  mkdir -p ~/Library/Application\ Support/Tidal/Extensions/scide_scvim
-
-  # create a symbolic link to 'sc' in the 'scide_scvim' directory named 'tidalnvim'
-  ln -s <ABSOLUTE_PATH_TO_tidalnvim_PLUGIN>/sc ~/Library/Application\ Support/Tidal/Extensions/scide_scvim/tidalnvim
+Do this using your favorite plugin manager. I prefer Tim Pope's [pathogen][pathogen].
 
 Start TidalNvim~
 
-Open a new file in `nvim` with a `.scd` or `.sc` extension and type `:TidalNvimStart` to start Tidal.
+Open a new file in `nvim` with a `.tidal` extension and type `:TidalNvimStart` to start Tidal.
 
 ==============================================================================
 MAPPINGS                                                       *tidalnvim-mappings*
@@ -94,10 +70,6 @@ MAPPINGS                                                       *tidalnvim-mappin
                         Mode: Insert, Normal
                         Name: `<Plug>(tidalnvim-send-line)`
 
-<F12>                   Hard stop.
-                        Mode: Insert, Normal
-                        Name: `<Plug>(tidalnvim-hard-stop)`
-
 <CR>                    Toggle post window buffer
                         Mode: Insert, Normal
                         Name: `<Plug>(tidalnvim-postwindow-toggle)`
@@ -106,17 +78,11 @@ MAPPINGS                                                       *tidalnvim-mappin
                         Mode:  Insert, Normal
                         Name: `<Plug>(tidalnvim-postwindow-clear)`
 
-K                       Open documentation
-                        See `keywordprg`
-                        Mode: Normal
-
 Remapping~
 
-You can remap all of the default keybindings using the `<Plug>` mappings.
+To remap any of the default mappings use the `nmap` command together with the name of the mapping.
 >
   nmap <F5> <Plug>(tidalnvim-send-block)
-  nmap <C-s> <Plug>(tidalnvim-send-line)
-  imap <C-s> <c-o><Plug>(tidalnvim-send-line)
 
 ==============================================================================
 COMMANDS                                                       *tidalnvim-commands*
@@ -125,9 +91,6 @@ Command                        Description
 -------                        -----------
 `TidalNvimStart`                    Start Tidal
 `TidalNvimStop`                     Stop Tidal
-`TidalNvimRecompile`                Recompile SCClassLibrary
-`TidalNvimTags`                     Create auto-generated utility files
-`TidalNvimHelp` <subject>           Open HelpBrowser or window split for <subject>
 
 ==============================================================================
 CONFIGURATION                                             *tidalnvim-configuration*
@@ -173,28 +136,18 @@ Configure the color
 
 Extras~
 
-Path to the sclang executable.
-TidalNvim will look in some known locations for sclang, but if it can't find it
-use this variable instead (setting this also improves startup time slightly).
->
-  let g:tidalnvim_sclang_executable = ''
-
-Update rate for server info in status line (seconds)
-(don't set this to low or vim will get slow)
->
-  let g:tidalnvim_statusline_interval = 1
-
-Set this variable if you don't want the "echo args" feature
->
-  let g:tidalnvim_echo_args = 0
-
 Set this variable if you don't want any default mappings
 >
   let g:tidalnvim_no_mappings = 1
 
-Browse Tidal documentation in nvim (see |tidalnvim-help-system| for more information)
->
-  let g:tidalnvim_scdoc = 1
+==============================================================================
+THANKS 								*tidalnvim-thanks*
+
+Gigantic thanks to these plugins for being shoulders to stand on
+
+[scnvim](https://github.com/supercollider/scvim)
+
+[vim-tidal](https://github.com/tidalcycles/vim-tidal)
 
 ==============================================================================
 LICENSE                                                         *tidalnvim-license*
