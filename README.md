@@ -88,6 +88,7 @@ highlight TidalNvimEval guifg=black guibg=white ctermfg=black ctermbg=white
 
 ### Extras
 
+```vim
 " set this variable if you don't want any default mappings
 let g:tidalnvim_no_mappings = 1
 
